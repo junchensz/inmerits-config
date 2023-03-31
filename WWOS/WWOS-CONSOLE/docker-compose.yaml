@@ -1,0 +1,98 @@
+version: '2'
+services:
+  batchsys:
+    image: batchsys:{{version}}
+    container_name: batchsys
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - [#data_path]/batchsys/logs:/app/batchsys/logs
+      - [#data_path]/cert/public_key:/app/batchsys/conf/public_key
+      - [#data_path]/cert/private_key:/app/batchsys/conf/private_key
+    network_mode: "host"
+    environment:
+      - port=[#port]
+      - log_level=[#log_level]
+      - db_server=[#db_server]
+      - db_port=[#db_port]
+      - db_user=[#db_user]
+      - db_pass=[#db_pass]
+      - db_database=[#db_database]
+      - gateway_artifact=[#gateway_tradesys]
+      - gateway_trade_space=[#gateway_tradesys]
+      - gateway_trade_server=[#gateway_tradesys]
+      - gateway_trade_query=[#gateway_tradesys]
+      - gateway_scene_mgmt=[#gateway_scene_mgmt]
+      - gateway_trade_user_mgmt=[#gateway_trade_user_mgmt]
+      - gateway_smart_contract=[#gateway_smart_contract]
+      - gateway_chest=[#gateway_chest]
+      - customer_token_auth_api=/distribute/tasks,/distribute/tasks/delete,/report/task-results/last
+      - source_auth_api=/view/task-results/confirm,/view/task-results/retrieve,/chest/tasks/retrieve
+      - customer_public_key_path=[#customer_public_key_path]
+      - did_public_key_path=[#did_public_key_path]
+      - app_id=[#server_type]
+      - app_private_key_path=[#app_private_key_path]
+      - app_source_public_key_dir=[#app_source_public_key_dir]
+      - encrypt_key=[#encrypt_key]
+      - max_transaction_param_len=[#max_transaction_param_len]
+      - wbbc_dapp_gateway=[#wbbc_dapp_gateway]
+      - wbbc_https_cert_path=[#wbbc_https_cert_path]
+      - wbbc_dapp_id=[#wbbc_dapp_id]
+      - wbbc_dapp_key=[#wbbc_dapp_key]
+      - wbbc_http_proxy=[#wbbc_http_proxy]
+      - wbbc_proxy_enable=[#wbbc_proxy_enable]
+      - wbbc_token_refresh_interval_min=[#wbbc_token_refresh_interval_min]
+      - wbbc_signed_user_id=[#wbbc_signed_user_id]
+      - wbbc_enable=[#wbbc_enable]
+      - wbbc_call_interval_ms=[#wbbc_call_interval_ms]
+      - wbbc_request_timeout_sec=[#wbbc_request_timeout_sec]
+      - service_discover_enable=[#service_discover_enable]
+      - server_type=[#server_type]
+      - etcd_prefix=[#etcd_prefix]
+      - etcd_endpoints=[#etcd_endpoints]
+      - etcd_user=[#etcd_user]
+      - etcd_pass=[#etcd_pass]
+      - etcd_auth_key=[#etcd_auth_key]
+      - server_http_host=[@HOSTIP]
+      - server_http_port=[#server_http_port]
+
+  scene-mgmt-server:
+    image: scene-mgmt-server:{{version}}
+    container_name: scene-mgmt-server-{{version}}
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - [#data_path]/logs:/app/scene-mgmt-server/logs
+      - [#data_path]/private_key:/app/scene-mgmt-server/config/private_key
+      - [#data_path]/public_key:/app/scene-mgmt-server/config/public_key
+      - [#data_path]/auth_apis:/app/scene-mgmt-server/config/auth_apis
+    network_mode: "host"
+    environment:
+      - app_port=[#app_port]
+      - log_level=[#log_level]
+      - db_server=[#db_server]
+      - db_port=[#db_port]
+      - db_user=[#db_user]
+      - db_pass=[#db_pass]
+      - db_database=[#db_database]
+      - platform_mgmt_address=[#platform_mgmt_address]
+      - trade_user_mgmt_address=[#trade_user_mgmt_address]
+      - adm_user_mgmt_address=[#adm_user_mgmt_address]
+      - batchsys_address=[#batchsys_address]
+      - tradesys_address=[#tradesys_address]
+      - broadcast_url=[#broadcast_url]
+      - transaction_item_limit=[#transaction_item_limit]
+      - max_transaction_limit=[#max_transaction_limit]
+      - service_discover_enable=[#service_discover_enable]
+      - server_type=[#server_type]
+      - etcd_prefix=[#etcd_prefix]
+      - etcd_endpoints=[#etcd_endpoints]
+      - etcd_user=[#etcd_user]
+      - etcd_pass=[#etcd_pass]
+      - etcd_auth_key=[#etcd_auth_key]
+      - server_http_host=[@HOSTIP]
+      - server_http_port=[#server_http_port]
+      - source_auth_private_key_path=[#source_auth_private_key_path]
+      - admin_jwt_public_key_path=[#jwt_public_key_path]
+
+      
